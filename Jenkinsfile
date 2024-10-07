@@ -9,22 +9,23 @@ pipeline {
                 parallel (
                     "Run Express": {
                         dir("express-application") {
-                            bat "npm install"
-                            bat "npm run start"
+                            sh "npm install"
+                            sh "npm run start"
                         }
                     },
                     "Run Nest": {
                         dir("nest-application") {
-                            bat "npm install"
-                            bat "npm run start"
+                            sh "npm install"
+                            sh "npm run start"
                         }
                     },
                     "Run React": {
                         dir("react-application") {
-                            bat "npm install"
-                            bat "npm run dev"
+                            sh "npm install"
+                            sh "npm run dev"
                         }
                     }
+
                 )
             }
         }
