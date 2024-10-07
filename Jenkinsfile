@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         SECRET_FILE_EXPRESS = credentials("food-express-env") // Express environment credentials
-        SECRET_FILE_NEST = credentials("food-nest-env")       // Nest environment credentials
+        // SECRET_FILE_NEST = credentials("food-nest-env")       // Nest environment credentials
     }
     tools {
         nodejs "NodeJS" // Ensure NodeJS is installed in Jenkins
@@ -19,17 +19,17 @@ pipeline {
                 }
             }
         }
-        stage("Create NestJs Service ENV") {
-            steps {
-                dir("nest-application") {
-                    script {
-                        withCredentials([file(credentialsId: "food-nest-env", variable: "SECRET_FILE_NEST")]) {
-                            writeFile file: '.env', text: readFile(SECRET_FILE_NEST) // Write Nest .env file from credentials
-                        }
-                    }
-                }
-            }
-        }
+        // stage("Create NestJs Service ENV") {
+        //     steps {
+        //         dir("nest-application") {
+        //             script {
+        //                 withCredentials([file(credentialsId: "food-nest-env", variable: "SECRET_FILE_NEST")]) {
+        //                     writeFile file: '.env', text: readFile(SECRET_FILE_NEST) // Write Nest .env file from credentials
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage("Install and Build Services") {
             steps {
                 parallel (
@@ -40,12 +40,12 @@ pipeline {
                             sh "node -r dotenv/config src/configs/db.configs.js" // Run db config with dotenv for Express
                         }
                     },
-                    "Run Nest": {
-                        dir("nest-application") {
-                            sh "npm install"                           // Install dependencies for Nest
-                            sh "npm run start"                         // Run Nest app
-                        }
-                    },
+                    // "Run Nest": {
+                    //     dir("nest-application") {
+                    //         sh "npm install"                           // Install dependencies for Nest
+                    //         sh "npm run start"                         // Run Nest app
+                    //     }
+                    // },
                     "Run React": {
                         dir("react-application") {
                             sh "npm install"                           // Install dependencies for React
