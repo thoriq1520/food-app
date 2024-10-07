@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("Create ExpressJs Service ENV") {
             steps {
-                dir("food app/express-app") { // Menunjuk ke direktori Express
+                dir("express-application") { // Menunjuk ke direktori Express
                     script {
                         withCredentials([file(credentialsId: "food-express-env", variable: "SECRET_FILE_EXPRESS")]) {
                             writeFile file: '.env', text: readFile(SECRET_FILE_EXPRESS) // gunakan langsung nama variabel
@@ -21,7 +21,7 @@ pipeline {
         }
         stage("Create NestJs Service ENV") {
             steps {
-                dir("food app/nest-app") { // Menunjuk ke direktori Nest
+                dir("nest-application") { // Menunjuk ke direktori Nest
                     script {
                         withCredentials([file(credentialsId: "food-nest-env", variable: "SECRET_FILE_NEST")]) {
                             writeFile file: '.env', text: readFile(SECRET_FILE_NEST) // gunakan langsung nama variabel
@@ -34,20 +34,20 @@ pipeline {
             steps {
                 parallel (
                     "Run Express": {
-                        dir("food app/express-app") {
+                        dir("express-application") {
                             bat "npm install" || error("npm install failed for Express")
                             bat "npm run start" || error("npm run start failed for Express")
                         }
                     },
                     "Run Nest": {
-                        dir("food app/nest-app") {
+                        dir("nest-application") {
                             bat "npm install" || error("npm install failed for Nest")
                             bat "npm run build" || error("npm run build failed for Nest")
                             bat "npm run start" || error("npm run start failed for Nest")
                         }
                     },
                     "Run React": {
-                        dir("food app/react-app") {
+                        dir("react-application") {
                             bat "npm install" || error("npm install failed for React")
                             bat "npm run build" || error("npm run build failed for React")
                             bat "npm run start" || error("npm run start failed for React")
