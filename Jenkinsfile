@@ -37,7 +37,7 @@ pipeline {
                         dir("express-application") {
                             sh "npm install"                           // Install dependencies for Express
                             sh "node -r dotenv/config index.js"       // Run Express app with dotenv config
-                            sh "node -r dotenv/config src/configs/db.config.js" // Run db config with dotenv for Express
+                            sh "node -r dotenv/config src/configs/db.configs.js" // Run db config with dotenv for Express
                         }
                     },
                     "Run Nest": {
