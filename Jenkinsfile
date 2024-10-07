@@ -10,10 +10,10 @@ pipeline {
     stages {
         stage("Create ExpressJs Service ENV") {
             steps {
-                dir("express-application") { // Menunjuk ke direktori Express
+                dir("express-application") { 
                     script {
                         withCredentials([file(credentialsId: "food-express-env", variable: "SECRET_FILE_EXPRESS")]) {
-                            writeFile file: '.env', text: readFile(SECRET_FILE_EXPRESS) // gunakan langsung nama variabel
+                            writeFile file: '.env', text: readFile(SECRET_FILE_EXPRESS)
                         }
                     }
                 }
@@ -21,10 +21,10 @@ pipeline {
         }
         stage("Create NestJs Service ENV") {
             steps {
-                dir("nest-application") { // Menunjuk ke direktori Nest
+                dir("nest-application") { 
                     script {
                         withCredentials([file(credentialsId: "food-nest-env", variable: "SECRET_FILE_NEST")]) {
-                            writeFile file: '.env', text: readFile(SECRET_FILE_NEST) // gunakan langsung nama variabel
+                            writeFile file: '.env', text: readFile(SECRET_FILE_NEST)
                         }
                     }
                 }
@@ -36,8 +36,7 @@ pipeline {
                     "Run Express": {
                         dir("express-application") {
                             bat "npm install"
-                            bat "node -r dotenv/config index.js"
-                            bat "node -r dotenv/config src/configs/db.config.js"
+                            bat "npm run start"
                         }
                     },
                     "Run Nest": {
